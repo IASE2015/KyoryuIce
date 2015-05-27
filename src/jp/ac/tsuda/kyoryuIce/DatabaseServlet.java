@@ -6,6 +6,7 @@ package jp.ac.tsuda.kyoryuIce;
 
 import java.sql.Statement;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -16,11 +17,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.jdo.JDOObjectNotFoundException;
+import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import jp.ac.tsuda.kyoryuIce.Ice;
+import jp.ac.tsuda.kyoryuIce.PMF;
 
 /**
  *
@@ -46,8 +54,8 @@ public class DatabaseServlet extends HttpServlet {
             String driverUrl = "jdbc:derby://localhost:1527/shohin";
             con = DriverManager.getConnection(driverUrl, "db", "db");
             Statement stmt = con.createStatement();
-            String sql = "select * from T_SHOHIN";
-            ResultSet rs = stmt.executeQuery(sql);
+            String sql = "select from "+ Ice.class.getName();
+            /*ResultSet rs = stmt.executeQuery(sql);
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             while (rs.next()) {
                 Map<String, Object> record = new HashMap<String, Object>();
@@ -58,7 +66,25 @@ public class DatabaseServlet extends HttpServlet {
             }
             rs.close();
             stmt.close();
-            request.setAttribute("data", list);
+            request.setAttribute("data", list);*/
+	        PersistenceManagerFactory factory = PMF.get();
+	        PersistenceManager manager = factory.getPersistenceManager();
+	        PrintWriter out = response.getWriter();
+            List<Ice> list = null;
+                String query = "select from " + Ice.class.getName();
+                try {
+                    list = (List<Ice>)manager.newQuery(query).execute();
+                } catch(JDOObjectNotFoundException e){}
+            String res = "[";
+            if (list != null){
+                for(Ice data:list){
+                    res += "{id:" + data.getId() + ",name:'" + data.getName() + "',title:'" +
+                        data.getPrice();
+                }
+            }
+            res += "]";
+            out.println(res);
+            manager.close();
 
             RequestDispatcher rd = request.getRequestDispatcher("/database.jsp");
             rd.forward(request, response);
