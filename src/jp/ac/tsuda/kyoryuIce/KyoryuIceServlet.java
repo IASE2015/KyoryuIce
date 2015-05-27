@@ -26,18 +26,16 @@ public class KyoryuIceServlet extends HttpServlet {
         String param1 = request.getParameter("id");
         PrintWriter out = response.getWriter();
         List<Ice> list = null;
-        if (param1 == null || param1 ==""){
             String query = "select from " + Ice.class.getName();
             try {
                 list = (List<Ice>)manager.newQuery(query).execute();
             } catch(JDOObjectNotFoundException e){}
-        } else {
             try {
             	Ice data = (Ice)manager.getObjectById(Ice.class,Long.parseLong(param1));
                 list = new ArrayList();
                 list.add(data);
             } catch(JDOObjectNotFoundException e){}
-        }
+        
         String res = "[";
         if (list != null){
             for(Ice data:list){

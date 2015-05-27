@@ -11,14 +11,15 @@
             
              <form method="post" action="/add">
                 <table class ="menu">
-            		<tr><th>TITLE:</th><td><input type="text" name="title"></td></tr>
-            		<tr><th>URL:</th><td><input type="text" name="url"></td></tr>
-            		<tr><th>COMMENT:</th><td><textarea name="comment"></textarea></td></tr>
+            		<tr><th>ID:</th><td><input type="text" name="id"></td></tr>
+            		<tr><th>NAME:</th><td><input type="text" name="name"></td></tr>
+            		<tr><th>PRICE:</th><td><input type="text" name="price"></td></tr>
             		<tr><th></th><td><input type="submit" value="追加"></td></tr>
                 </table>
-                <input type="submit" name="cart.do" value="カートの内容を確認して注文へ進む"/>
+
             </form>
-            <form action="logout.do" method="post"><input type="submit" name="logout" value="ログアウト"　/>
+            <input type="submit" value="カートの内容を確認して注文へ進む"/>
+            <form action="logout.do" method="post"><input type="submit" name="logout" value="ログアウト"/>
             </form>
         </div>
     </body>
