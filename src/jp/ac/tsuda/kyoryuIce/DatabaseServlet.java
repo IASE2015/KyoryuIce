@@ -35,7 +35,7 @@ import jp.ac.tsuda.kyoryuIce.PMF;
  * @author 
  */
 public class DatabaseServlet extends HttpServlet {
-
+    private static final long serialVersionUID = 1L;
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -50,12 +50,12 @@ public class DatabaseServlet extends HttpServlet {
             throws ServletException, IOException, SQLException {
         Connection con = null;
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            String driverUrl = "jdbc:derby://localhost:1527/shohin";
+            //Class.forName("org.apache.derby.jdbc.ClientDriver");
+            /*tring driverUrl = "jdbc:derby://localhost:1527/shohin";
             con = DriverManager.getConnection(driverUrl, "db", "db");
             Statement stmt = con.createStatement();
             String sql = "select from "+ Ice.class.getName();
-            /*ResultSet rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery(sql);
             List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
             while (rs.next()) {
                 Map<String, Object> record = new HashMap<String, Object>();
@@ -69,24 +69,33 @@ public class DatabaseServlet extends HttpServlet {
             request.setAttribute("data", list);*/
 	        PersistenceManagerFactory factory = PMF.get();
 	        PersistenceManager manager = factory.getPersistenceManager();
+	        String param1 = request.getParameter("id");
 	        PrintWriter out = response.getWriter();
             List<Ice> list = null;
+            if (param1 == null || param1 ==""){
                 String query = "select from " + Ice.class.getName();
                 try {
                     list = (List<Ice>)manager.newQuery(query).execute();
                 } catch(JDOObjectNotFoundException e){}
+            } else {
+                try {
+                	Ice data = (Ice)manager.getObjectById(Ice.class,Long.parseLong(param1));
+                    list = new ArrayList();
+                    list.add(data);
+                } catch(JDOObjectNotFoundException e){}
+            }
             String res = "[";
-            if (list != null){
-                for(Ice data:list){
-                    res += "{id:" + data.getId() + ",name:'" + data.getName() + "',title:'" +
-                        data.getPrice();
+            if (list!= null){
+                for(Ice d : list){
+                    res += "{id:" + d.getId() + ",name:'" + d.getName() + "',price:'" +
+                        d.getPrice();
                 }
             }
             res += "]";
             out.println(res);
             manager.close();
 
-            RequestDispatcher rd = request.getRequestDispatcher("/database.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/database.html");
             rd.forward(request, response);
         } catch (Exception e) {
             throw new ServletException(e);

@@ -48,7 +48,7 @@ public class AddServlet extends HttpServlet {
         } finally {
             manager.close();
         }
-        //response.sendRedirect("/index.html");
+        response.sendRedirect("/database.html");
     }
 }
 

@@ -8,12 +8,15 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+@SuppressWarnings("serial")
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Ice implements Serializable{
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private int id;
+    @Persistent
 	private String name;
+    @Persistent
 	private int price;
 	
 	public Ice(int id,String name,int price){
