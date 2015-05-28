@@ -1,22 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package jp.ac.tsuda.kyoryuIce;
 
-import java.sql.Statement;
+//import java.sql.Statement;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+// java.sql.DriverManager;
+//import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.Map;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
@@ -46,10 +42,10 @@ public class DatabaseServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    /*protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        Connection con = null;
-        try {
+        //Connection con = null;
+        //try {
             //Class.forName("org.apache.derby.jdbc.ClientDriver");
             /*tring driverUrl = "jdbc:derby://localhost:1527/shohin";
             con = DriverManager.getConnection(driverUrl, "db", "db");
@@ -67,7 +63,7 @@ public class DatabaseServlet extends HttpServlet {
             rs.close();
             stmt.close();
             request.setAttribute("data", list);*/
-	        PersistenceManagerFactory factory = PMF.get();
+	        /*PersistenceManagerFactory factory = PMF.get();
 	        PersistenceManager manager = factory.getPersistenceManager();
 	        String param1 = request.getParameter("id");
 	        PrintWriter out = response.getWriter();
@@ -121,13 +117,62 @@ public class DatabaseServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
+        /*try {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        Connection con = null;
+    	//try {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html");
+        request.setCharacterEncoding("utf-8");
+        
+        PersistenceManagerFactory factory = PMF.get();
+        PersistenceManager manager = factory.getPersistenceManager();
+        String param1 = request.getParameter("id");
+        PrintWriter out = response.getWriter();
+        List<Ice> list = null;
+        if (param1 == null || param1 ==""){
+            String query = "select from " + Ice.class.getName();
+            try {
+                list = (List<Ice>)manager.newQuery(query).execute();
+            } catch(JDOObjectNotFoundException e){}
+        } else {
+            try {
+            	Ice data = (Ice)manager.getObjectById(Ice.class,Integer.parseInt(param1));
+                list = new ArrayList();
+                list.add(data);
+            } catch(JDOObjectNotFoundException e){}
         }
+        String res = "[";
+        
+        if (list != null){
+        	for(Ice d : list){
+                res += "{id:" + d.getId() + ",name:'" + d.getName() + "',price:'" +
+                    d.getPrice();
+            }
+        }
+        res += "]";
+        out.println(res);
+        manager.close();
+
+        RequestDispatcher rd = request.getRequestDispatcher("/database.html");
+        rd.forward(request, response);
+  
+    	/*}catch (Exception e) {
+	        throw new ServletException(e);
+	    } finally {
+	        try {
+	            if (con != null) {
+	                con.close();
+	            }
+	        } catch (SQLException e) {
+	            throw new ServletException(e);
+	        }
+	    }*/
     }
 
     /**
@@ -139,7 +184,7 @@ public class DatabaseServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+    /*@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
