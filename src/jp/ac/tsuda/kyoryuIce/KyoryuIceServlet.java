@@ -33,7 +33,7 @@ public class KyoryuIceServlet extends HttpServlet {
             } catch(JDOObjectNotFoundException e){}
         } else {
             try {
-            	Ice data = (Ice)manager.getObjectById(Ice.class,Long.parseLong(param1));
+            	Ice data = (Ice)manager.getObjectById(Ice.class,Integer.parseInt(param1));
                 list = new ArrayList();
                 list.add(data);
             } catch(JDOObjectNotFoundException e){}
@@ -42,7 +42,7 @@ public class KyoryuIceServlet extends HttpServlet {
         if (list != null){
             for(Ice d : list){
                 res += "{id:" + d.getId() + ",name:'" + d.getName() + "',price:'" +
-                    d.getPrice();
+                    d.getPrice()  + "'},";
             }
         }
         res += "]";

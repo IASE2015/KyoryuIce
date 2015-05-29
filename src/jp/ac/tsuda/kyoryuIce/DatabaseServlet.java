@@ -11,8 +11,8 @@ import java.util.ArrayList;
 //import java.util.HashMap;
 import java.util.List;
 //import java.util.Map;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
@@ -42,12 +42,12 @@ public class DatabaseServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    /*protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        //Connection con = null;
-        //try {
-            //Class.forName("org.apache.derby.jdbc.ClientDriver");
-            /*tring driverUrl = "jdbc:derby://localhost:1527/shohin";
+        Connection con = null;
+        try {
+            /*Class.forName("org.apache.derby.jdbc.ClientDriver");
+            tring driverUrl = "jdbc:derby://localhost:1527/shohin";
             con = DriverManager.getConnection(driverUrl, "db", "db");
             Statement stmt = con.createStatement();
             String sql = "select from "+ Ice.class.getName();
@@ -63,7 +63,7 @@ public class DatabaseServlet extends HttpServlet {
             rs.close();
             stmt.close();
             request.setAttribute("data", list);*/
-	        /*PersistenceManagerFactory factory = PMF.get();
+	        PersistenceManagerFactory factory = PMF.get();
 	        PersistenceManager manager = factory.getPersistenceManager();
 	        String param1 = request.getParameter("id");
 	        PrintWriter out = response.getWriter();
@@ -84,7 +84,7 @@ public class DatabaseServlet extends HttpServlet {
             if (list!= null){
                 for(Ice d : list){
                     res += "{id:" + d.getId() + ",name:'" + d.getName() + "',price:'" +
-                        d.getPrice();
+                        d.getPrice() + "'},";
                 }
             }
             res += "]";
@@ -142,7 +142,7 @@ public class DatabaseServlet extends HttpServlet {
             } catch(JDOObjectNotFoundException e){}
         } else {
             try {
-            	Ice data = (Ice)manager.getObjectById(Ice.class,Integer.parseInt(param1));
+            	Ice data = (Ice)manager.getObjectById(Ice.class,Long.parseLong(param1));
                 list = new ArrayList();
                 list.add(data);
             } catch(JDOObjectNotFoundException e){}
@@ -152,7 +152,7 @@ public class DatabaseServlet extends HttpServlet {
         if (list != null){
         	for(Ice d : list){
                 res += "{id:" + d.getId() + ",name:'" + d.getName() + "',price:'" +
-                    d.getPrice();
+                    d.getPrice() + "'},";
             }
         }
         res += "]";
@@ -184,7 +184,7 @@ public class DatabaseServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    /*@Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
