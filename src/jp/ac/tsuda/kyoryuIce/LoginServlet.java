@@ -23,6 +23,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+
+
 /**
  *
  * @author 
@@ -40,7 +44,7 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    /*protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
@@ -105,7 +109,23 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+    	UserService userService = UserServiceFactory.getUserService();
+
+        String thisURL = request.getRequestURI();
+
+        response.setContentType("text/html");
+        if (request.getUserPrincipal() != null) {
+            response.getWriter().println("<p>Hello, " +
+                                     request.getUserPrincipal().getName() +
+                                     "!  You can <a href=\"" +
+                                     userService.createLogoutURL(thisURL) +
+                                     "\">sign out</a>.</p>");
+        } else {
+            response.getWriter().println("<p>Please <a href=\"" +
+                                     userService.createLoginURL(thisURL) +
+                                     "\">sign in</a>.</p>");
+        }
+
     }
 
     /**
@@ -120,7 +140,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /**

@@ -33,4 +33,21 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-</web-app>
+	<filter>
+	    <filter-name>logincheck</filter-name>
+	    <filter-class>jp.ac.tsuda.kyoryuIce.LoginCheckFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>logincheck</filter-name>
+	    <url-pattern>/private.jsp</url-pattern>
+	</filter-mapping>   
+    
+	<servlet>
+	    <servlet-name>logout</servlet-name>
+	    <servlet-class>jp.ac.tsuda.kyoryuIce.LogoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>logout</servlet-name>
+	    <url-pattern>/logout</url-pattern>
+	</servlet-mapping>
+</web-app>	 
