@@ -15,15 +15,17 @@ function createHttpRequest(){
  
 function getData(id){
     var request = createHttpRequest();
-    /*if (request == null){
+    if (request == null){
         alert("HttpRequestが取得できませんでした。");
         return;
-    }*/
+    }
     var uri = "/database";
     if (id != null) uri = "/database?id=" + id;
     request.open("GET",uri,true);
     request.setRequestHeader("User-Agent","XMLHttpRequest");
     request.onreadystatechange = function(){
+    	console.log(request.readyState);
+    	console.log(request.status);
         if (request.readyState == 4 && request.status == 200){
             callback(request);
         }

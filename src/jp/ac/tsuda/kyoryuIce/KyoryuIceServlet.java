@@ -41,7 +41,7 @@ public class KyoryuIceServlet extends HttpServlet {
         String res = "[";
         if (list != null){
             for(Ice d : list){
-                res += "{id:" + d.getId() + ",name:'" + d.getName() + "',price:'" +
+                res += "{id:" + d.getId() + ",number:'"+ d.getNumber() +",name:'" + d.getName() + "',price:'" +
                     d.getPrice()  + "'},";
             }
         }

@@ -31,15 +31,17 @@ public class AddServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         
-        String i = request.getParameter("id");
+        //String i = request.getParameter("id");
         String name = request.getParameter("name");
         String p = request.getParameter("price");
+        String n = request.getParameter("number");
         
-        int id = Integer.parseInt(i);
+        int number = Integer.parseInt(n);
+        //Long id = Long.parseLong(i);
         int price = Integer.parseInt(p);
         
         
-        Ice data = new Ice(id,name,price);
+        Ice data = new Ice(number,name,price);
         
         PersistenceManagerFactory factory = PMF.get();
         PersistenceManager manager = factory.getPersistenceManager();

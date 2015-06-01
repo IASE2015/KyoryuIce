@@ -15,20 +15,24 @@ import java.net.URL;
 public class Ice implements Serializable{
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private int id;
+	private Long id;
+    @Persistent
+    private int number;
     @Persistent
 	private String name;
     @Persistent
 	private int price;
 	
-	public Ice(int id,String name,int price){
-		this.id = id;
+	public Ice(int number,String name,int price){
+		super();
+		this.number = number;
 		this.name = name;
 		this.price = price;
 	}
 	public Ice(){}
 	
-	public int getId(){ return id; }
+	public Long getId(){ return id; }
+	public int getNumber(){ return number; }
 	public String getName(){ return name; }
 	public int getPrice(){ return price; }
 	
