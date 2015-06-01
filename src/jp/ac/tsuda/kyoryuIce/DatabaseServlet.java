@@ -59,7 +59,7 @@ public class DatabaseServlet extends HttpServlet {
         String res = "[";
         if (list != null){
             for(Ice data:list){
-                res += "{id:" +data.getId()+",number:'"+ data.getNumber() + ",url:'" + data.getName() + "',price:'" +
+                res += "{id:" +data.getId()+",number:'"+ data.getNumber() + "',name:'" + data.getName() + "',price:'" +
                     data.getPrice() + "'},";
             }
         }
