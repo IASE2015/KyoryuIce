@@ -1,7 +1,7 @@
 package jp.ac.tsuda.kyoryuIce;
 
 import java.io.IOException;
-import java.security.Principal;
+//import java.security.Principal;
  
 import javax.servlet.*;
 import javax.servlet.http.*;

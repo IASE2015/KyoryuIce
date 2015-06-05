@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 
-import java.net.URL;
+//import java.net.URL;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Account implements Serializable{
